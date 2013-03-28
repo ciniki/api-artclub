@@ -69,7 +69,7 @@ function ciniki_artclub_sponsorUpdate(&$ciniki) {
 			return $rc;
 		}
 		if( $rc['num_rows'] > 0 ) {
-			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'942', 'msg'=>'You already have an artclub with this name, please choose another name.'));
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'962', 'msg'=>'You already have an artclub with this name, please choose another name.'));
 		}
 	}
 
@@ -85,7 +85,7 @@ function ciniki_artclub_sponsorUpdate(&$ciniki) {
 		return $rc;
 	}
 	if( !isset($rc['item']) ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'943', 'msg'=>'Contact image not found'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'965', 'msg'=>'Contact image not found'));
 	}
 	$item = $rc['item'];
 
@@ -143,7 +143,7 @@ function ciniki_artclub_sponsorUpdate(&$ciniki) {
 	}
 	if( !isset($rc['num_affected_rows']) || $rc['num_affected_rows'] != 1 ) {
 		ciniki_core_dbTransactionRollback($ciniki, 'ciniki.artclub');
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'945', 'msg'=>'Unable to update artclub'));	
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'966', 'msg'=>'Unable to update artclub'));	
 	}
 
 	//

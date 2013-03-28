@@ -41,7 +41,7 @@ function ciniki_artclub_sponsorAdd(&$ciniki) {
     $args = $rc['args'];
 
 	if( $args['first'] == '' && $args['last'] == '' && $args['company'] == '' ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'928', 'msg'=>'You must specify a name or company'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'947', 'msg'=>'You must specify a name or company'));
 	}
 
 	if( !isset($args['permalink']) || $args['permalink'] == '' ) {
@@ -80,7 +80,7 @@ function ciniki_artclub_sponsorAdd(&$ciniki) {
 		return $rc;
 	}
 	if( $rc['num_rows'] > 0 ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'929', 'msg'=>'You already have a sponsor with this name, please choose another name.'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'958', 'msg'=>'You already have a sponsor with this name, please choose another name.'));
 	}
 
 	//  
@@ -139,7 +139,7 @@ function ciniki_artclub_sponsorAdd(&$ciniki) {
 	}
 	if( !isset($rc['insert_id']) || $rc['insert_id'] < 1 ) {
 		ciniki_core_dbTransactionRollback($ciniki, 'ciniki.artclub');
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'927', 'msg'=>'Unable to add sponsor'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'959', 'msg'=>'Unable to add sponsor'));
 	}
 	$sponsor_id = $rc['insert_id'];
 
