@@ -107,13 +107,15 @@ function ciniki_artclub_memberGet($ciniki) {
 		}
 		$member = $rc['members'][0]['member'];
 		ciniki_core_loadMethod($ciniki, 'ciniki', 'images', 'private', 'loadCacheThumbnail');
-		foreach($member['images'] as $img_id => $img) {
-			if( isset($img['image']['image_id']) && $img['image']['image_id'] > 0 ) {
-				$rc = ciniki_images_loadCacheThumbnail($ciniki, $img['image']['image_id'], 75);
-				if( $rc['stat'] != 'ok' ) {
-					return $rc;
+		if( isset($member['images']) ) {
+			foreach($member['images'] as $img_id => $img) {
+				if( isset($img['image']['image_id']) && $img['image']['image_id'] > 0 ) {
+					$rc = ciniki_images_loadCacheThumbnail($ciniki, $img['image']['image_id'], 75);
+					if( $rc['stat'] != 'ok' ) {
+						return $rc;
+					}
+					$member['images'][$img_id]['image']['image_data'] = 'data:image/jpg;base64,' . base64_encode($rc['image']);
 				}
-				$member['images'][$img_id]['image']['image_data'] = 'data:image/jpg;base64,' . base64_encode($rc['image']);
 			}
 		}
 	} else {

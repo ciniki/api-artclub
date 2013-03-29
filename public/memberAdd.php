@@ -103,6 +103,7 @@ function ciniki_artclub_memberAdd(&$ciniki) {
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUUID');
 	$rc = ciniki_core_dbUUID($ciniki, 'ciniki.artclub');
 	if( $rc['stat'] != 'ok' ) {
+		ciniki_core_dbTransactionRollback($ciniki, 'ciniki.artclub');
 		return $rc;
 	}
 	$args['uuid'] = $rc['uuid'];

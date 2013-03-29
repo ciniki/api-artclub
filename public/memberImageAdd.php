@@ -22,6 +22,7 @@ function ciniki_artclub_memberImageAdd(&$ciniki) {
         'name'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Title'), 
         'permalink'=>array('required'=>'no', 'default'=>'', 'blank'=>'yes', 'name'=>'Permalink'), 
         'webflags'=>array('required'=>'no', 'default'=>'0', 'blank'=>'yes', 'name'=>'Website Flags'), 
+        'url'=>array('required'=>'no', 'default'=>'', 'blank'=>'yes', 'name'=>'URL'), 
         'description'=>array('required'=>'no', 'default'=>'', 'blank'=>'yes', 'name'=>'Description'), 
         )); 
     if( $rc['stat'] != 'ok' ) { 
