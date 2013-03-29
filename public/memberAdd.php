@@ -174,15 +174,17 @@ function ciniki_artclub_memberAdd(&$ciniki) {
 	//
 	// Add image reference
 	//
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'images', 'private', 'refAdd');
-	$rc = ciniki_images_refAdd($ciniki, $args['business_id'], array(
-		'image_id'=>$args['primary_image_id'], 
-		'object'=>'ciniki.artclub.member', 
-		'object_id'=>$member_id,
-		'object_field'=>'primary_image_id'));
-	if( $rc['stat'] != 'ok' ) {
-		ciniki_core_dbTransactionRollback($ciniki, 'ciniki.artclub');
-		return $rc;
+	if( $args['primary_image_id'] != '' && $args['primary_image_id'] != '0' ) {
+		ciniki_core_loadMethod($ciniki, 'ciniki', 'images', 'private', 'refAdd');
+		$rc = ciniki_images_refAdd($ciniki, $args['business_id'], array(
+			'image_id'=>$args['primary_image_id'], 
+			'object'=>'ciniki.artclub.member', 
+			'object_id'=>$member_id,
+			'object_field'=>'primary_image_id'));
+		if( $rc['stat'] != 'ok' ) {
+			ciniki_core_dbTransactionRollback($ciniki, 'ciniki.artclub');
+			return $rc;
+		}
 	}
 
 	//
