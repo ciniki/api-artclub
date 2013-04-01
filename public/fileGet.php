@@ -45,6 +45,7 @@ function ciniki_artclub_fileGet($ciniki) {
 	// Get the main information
 	//
 	$strsql = "SELECT ciniki_artclub_files.id, "
+		. "ciniki_artclub_files.type, "
 		. "ciniki_artclub_files.name, "
 		. "ciniki_artclub_files.permalink, "
 		. "ciniki_artclub_files.webflags, "

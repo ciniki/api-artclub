@@ -22,9 +22,11 @@ function ciniki_artclub_fileUpdate(&$ciniki) {
     $rc = ciniki_core_prepareArgs($ciniki, 'no', array(
         'business_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Business'), 
         'file_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'File'), 
+		'type'=>array('required'=>'no', 'blank'=>'no', 'validlist'=>array('1', '2'), 'name'=>'Type'),
 		'name'=>array('required'=>'no', 'trimblanks'=>'yes', 'blank'=>'yes', 'name'=>'First Name'),
-		'webflags'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Web Flags'),
 		'description'=>array('required'=>'no', 'trimblanks'=>'yes', 'blank'=>'yes', 'name'=>'Description'),
+		'webflags'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Web Flags'),
+		'publish_date'=>array('required'=>'no', 'blank'=>'yes', 'type'=>'date', 'name'=>'Publish Date'),
         )); 
     if( $rc['stat'] != 'ok' ) { 
         return $rc;
@@ -49,7 +51,7 @@ function ciniki_artclub_fileUpdate(&$ciniki) {
 	// Check the permalink doesn't already exist
 	//
 	if( isset($args['permalink']) ) {
-		$strsql = "SELECT id, name, permalink FROM ciniki_artclub "
+		$strsql = "SELECT id, name, permalink FROM ciniki_artclub_files "
 			. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' "
 			. "AND permalink = '" . ciniki_core_dbQuote($ciniki, $args['permalink']) . "' "
 			. "AND id <> '" . ciniki_core_dbQuote($ciniki, $args['file_id']) . "' "
@@ -59,7 +61,7 @@ function ciniki_artclub_fileUpdate(&$ciniki) {
 			return $rc;
 		}
 		if( $rc['num_rows'] > 0 ) {
-			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'975', 'msg'=>'You already have an artclub with this name, please choose another name.'));
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'996', 'msg'=>'You already have an artclub with this name, please choose another name.'));
 		}
 	}
 
@@ -84,10 +86,12 @@ function ciniki_artclub_fileUpdate(&$ciniki) {
 	$strsql = "UPDATE ciniki_artclub_files SET last_updated = UTC_TIMESTAMP()";
 
 	$changelog_fields = array(
+		'type',
 		'name',
 		'permalink',
 		'webflags',
 		'description',
+		'publish_date',
 		);
 	foreach($changelog_fields as $field) {
 		if( isset($args[$field]) ) {

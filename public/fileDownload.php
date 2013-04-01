@@ -15,7 +15,7 @@
 // -------
 // Binary file.
 //
-function ciniki_artclub_download($ciniki) {
+function ciniki_artclub_fileDownload($ciniki) {
     //  
     // Find all the required and optional arguments
     //  

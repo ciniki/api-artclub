@@ -12,7 +12,8 @@
 # type:				The type of file, used for sorting and web display.
 #
 #					0 - unknown
-#					1 - membership application form
+#					1 - Membership Application Form
+#					2 - Newsletter
 #
 # extension:		The extension from the uploaded file. (.doc, .xls, .pdf, etc)
 #
@@ -32,6 +33,8 @@
 # description:		The file description, for display in the list.
 # org_filename:		The filename as specified on the remote system uploading the file.
 #
+# publish_date:		The date the file was published, used for newsletters to sort them by date.
+#
 # binary_content:	The contents of the uploaded file.
 #
 # date_added:		The UTC date and time the file was added.
@@ -49,7 +52,8 @@ create table ciniki_artclub_files (
 	webflags tinyint unsigned not null,
 	description varchar(6000) not null,
 	org_filename varchar(250) not null,
-	binary_content longblog,
+	publish_date date not null,
+	binary_content longblob,
 	date_added datetime not null,
 	last_updated datetime not null,
 	primary key (id),

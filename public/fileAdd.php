@@ -24,17 +24,18 @@
 // -------
 // <rsp stat='ok' id='34' />
 //
-function ciniki_artclub_add(&$ciniki) {
+function ciniki_artclub_fileAdd(&$ciniki) {
     //  
     // Find all the required and optional arguments
     //  
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'prepareArgs');
     $rc = ciniki_core_prepareArgs($ciniki, 'no', array(
         'business_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Business'), 
-		'type'=>array('required'=>'yes', 'blank'=>'no', 'validlist'=>array('1'), 'name'=>'Type'),
+		'type'=>array('required'=>'yes', 'blank'=>'no', 'validlist'=>array('1', '2'), 'name'=>'Type'),
         'name'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Name'), 
         'description'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Description'), 
         'webflags'=>array('required'=>'no', 'blank'=>'yes', 'default'=>'0', 'name'=>'Web Flags'), 
+		'publish_date'=>array('required'=>'no', 'blank'=>'yes', 'default'=>'', 'type'=>'date', 'name'=>'Publish Date'),
         )); 
     if( $rc['stat'] != 'ok' ) { 
         return $rc;
@@ -129,7 +130,7 @@ function ciniki_artclub_add(&$ciniki) {
 	//
 	$strsql = "INSERT INTO ciniki_artclub_files (uuid, business_id, "
 		. "type, extension, status, name, permalink, webflags, "
-		. "description, org_filename, binary_content, "
+		. "description, org_filename, publish_date, binary_content, "
 		. "date_added, last_updated) VALUES ("
 		. "'" . ciniki_core_dbQuote($ciniki, $args['uuid']) . "', "
 		. "'" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "', "
@@ -141,6 +142,7 @@ function ciniki_artclub_add(&$ciniki) {
 		. "'" . ciniki_core_dbQuote($ciniki, $args['webflags']) . "', "
 		. "'" . ciniki_core_dbQuote($ciniki, $args['description']) . "', "
 		. "'" . ciniki_core_dbQuote($ciniki, $args['org_filename']) . "', "
+		. "'" . ciniki_core_dbQuote($ciniki, $args['publish_date']) . "', "
 		. "'" . ciniki_core_dbQuote($ciniki, $file_contents) . "', "
 		. "UTC_TIMESTAMP(), UTC_TIMESTAMP())"
 		. "";
@@ -168,6 +170,7 @@ function ciniki_artclub_add(&$ciniki) {
 		'webflags',
 		'description',
 		'org_filename',
+		'publish_date',
 		);
 	foreach($changelog_fields as $field) {
 		if( isset($args[$field]) ) {
