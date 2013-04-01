@@ -43,7 +43,7 @@ function ciniki_artclub_memberUpdate(&$ciniki) {
     $args = $rc['args'];
 
 	if( isset($args['name']) && (!isset($args['permalink']) || $args['permalink'] == '') ) {
-		$args['permalink'] = preg_replace('/ /', '-', preg_replace('/[^a-z0-9 ]/', '', strtolower($args[    'name'])));
+		$args['permalink'] = preg_replace('/ /', '-', preg_replace('/[^a-z0-9 ]/', '', strtolower($args['name'])));
 	}
 
     //  
