@@ -12,7 +12,8 @@
 function ciniki_artclub_web_memberList($ciniki, $settings, $business_id) {
 
 	$strsql = "SELECT ciniki_artclub_members.id, "
-		. "IF(ciniki_artclub_members.company='', CONCAT_WS(' ', ciniki_artclub_members.first, ciniki_artclub_members.last), ciniki_artclub_members.company) AS name, "
+		. "CONCAT_WS(' ', ciniki_artclub_members.first, ciniki_artclub_members.last) AS name, "
+//		. "IF(ciniki_artclub_members.company='', CONCAT_WS(' ', ciniki_artclub_members.first, ciniki_artclub_members.last), ciniki_artclub_members.company) AS name, "
 		. "ciniki_artclub_members.permalink, "
 		. "ciniki_artclub_members.short_description, "
 		. "ciniki_artclub_members.primary_image_id, "
@@ -21,7 +22,7 @@ function ciniki_artclub_web_memberList($ciniki, $settings, $business_id) {
 		. "WHERE ciniki_artclub_members.business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
 		// Check the member is visible on the website
 		. "AND (ciniki_artclub_members.webflags&0x01) = 0 "
-		. "ORDER BY name ";
+		. "ORDER BY ciniki_artclub_members.last, ciniki_artclub_members.first ";
 
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQueryTree');
 	$rc = ciniki_core_dbHashQueryTree($ciniki, $strsql, 'ciniki.artclub', array(
