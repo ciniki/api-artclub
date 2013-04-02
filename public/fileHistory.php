@@ -47,6 +47,12 @@ function ciniki_artclub_fileHistory($ciniki) {
 		return $rc;
 	}
 
+	if( $args['field'] == 'publish_date' ) {
+		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbGetModuleHistoryReformat');
+		return ciniki_core_dbGetModuleHistoryReformat($ciniki, 'ciniki.artclub', 
+			'ciniki_artclub_history', $args['business_id'], 
+			'ciniki_artclub_files', $args['file_id'], $args['field'], 'date');
+	}
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbGetModuleHistory');
 	return ciniki_core_dbGetModuleHistory($ciniki, 'ciniki.artclub', 
 		'ciniki_artclub_history', $args['business_id'], 

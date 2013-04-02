@@ -21,7 +21,7 @@ function ciniki_artclub_fileList($ciniki) {
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'prepareArgs');
 	$rc = ciniki_core_prepareArgs($ciniki, 'no', array(
 		'business_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Business'), 
-		'type'=>array('required'=>'no', 'blank'=>'no', 'validlist'=>array('1'), 'name'=>'Business'), 
+		'type'=>array('required'=>'no', 'blank'=>'no', 'validlist'=>array('1','2'), 'name'=>'Type'), 
 		));
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
