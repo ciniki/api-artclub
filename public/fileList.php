@@ -54,7 +54,7 @@ function ciniki_artclub_fileList($ciniki) {
 	if( isset($args['type']) && $args['type'] != '' ) {
 		$strsql .= "AND type = '" . ciniki_core_dbQuote($ciniki, $args['type']) . "' ";
 	}
-	$strsql .= "ORDER BY type, name";
+	$strsql .= "ORDER BY type, publish_date DESC, name";
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQueryTree');
 	if( isset($args['type']) && $args['type'] != '' ) {
 		$rc = ciniki_core_dbHashQueryTree($ciniki, $strsql, 'ciniki.artclub', array(

@@ -50,6 +50,7 @@ function ciniki_artclub_fileGet($ciniki) {
 		. "ciniki_artclub_files.permalink, "
 		. "ciniki_artclub_files.webflags, "
 		. "IF(ciniki_artclub_files.webflags&0x01=1,'Hidden','Visible') AS webvisible, "
+		. "IFNULL(DATE_FORMAT(publish_date, '" . ciniki_core_dbQuote($ciniki, $date_format) . "'), '') AS publish_date, "
 		. "ciniki_artclub_files.description "
 		. "FROM ciniki_artclub_files "
 		. "WHERE ciniki_artclub_files.business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' "
