@@ -24,6 +24,7 @@ function ciniki_artclub_checkAccess($ciniki, $business_id, $method) {
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
+	$modules = $rc['modules'];
 
 	if( !isset($rc['ruleset']) ) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'924', 'msg'=>'No permissions granted'));
@@ -33,7 +34,7 @@ function ciniki_artclub_checkAccess($ciniki, $business_id, $method) {
 	// Sysadmins are allowed full access
 	//
 	if( ($ciniki['session']['user']['perms'] & 0x01) == 0x01 ) {
-		return array('stat'=>'ok');
+		return array('stat'=>'ok', 'modules'=>$modules);
 	}
 
 	//
@@ -56,7 +57,7 @@ function ciniki_artclub_checkAccess($ciniki, $business_id, $method) {
 	//
 	if( isset($rc['rows']) && isset($rc['rows'][0]) 
 		&& $rc['rows'][0]['user_id'] > 0 && $rc['rows'][0]['user_id'] == $ciniki['session']['user']['id'] ) {
-		return array('stat'=>'ok');
+		return array('stat'=>'ok', 'modules'=>$modules);
 	}
 
 	//

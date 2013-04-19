@@ -33,7 +33,7 @@ function ciniki_artclub_fileAdd(&$ciniki) {
         'business_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Business'), 
 		'type'=>array('required'=>'yes', 'blank'=>'no', 'validlist'=>array('1', '2'), 'name'=>'Type'),
         'name'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Name'), 
-        'description'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Description'), 
+        'description'=>array('required'=>'no', 'default'=>'', 'blank'=>'yes', 'name'=>'Description'), 
         'webflags'=>array('required'=>'no', 'blank'=>'yes', 'default'=>'0', 'name'=>'Web Flags'), 
 		'publish_date'=>array('required'=>'no', 'blank'=>'yes', 'default'=>'', 'type'=>'date', 'name'=>'Publish Date'),
         )); 
