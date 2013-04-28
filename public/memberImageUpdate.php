@@ -33,6 +33,16 @@ function ciniki_artclub_memberImageUpdate(&$ciniki) {
     }   
     $args = $rc['args'];
 
+    //  
+    // Make sure this module is activated, and
+    // check permission to run this function for this business
+    //  
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'artclub', 'private', 'checkAccess');
+    $rc = ciniki_artclub_checkAccess($ciniki, $args['business_id'], 'ciniki.artclub.memberImageUpdate', 0); 
+    if( $rc['stat'] != 'ok' ) { 
+        return $rc;
+    }
+
 	//
 	// Get the existing image details
 	//
@@ -67,16 +77,6 @@ function ciniki_artclub_memberImageUpdate(&$ciniki) {
 			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'941', 'msg'=>'You already have an image with this name, please choose another name'));
 		}
 	}
-
-    //  
-    // Make sure this module is activated, and
-    // check permission to run this function for this business
-    //  
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'artclub', 'private', 'checkAccess');
-    $rc = ciniki_artclub_checkAccess($ciniki, $args['business_id'], 'ciniki.artclub.memberUpdate', 0); 
-    if( $rc['stat'] != 'ok' ) { 
-        return $rc;
-    }
 
 	//  
 	// Turn off autocommit
