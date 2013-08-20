@@ -24,6 +24,7 @@ function ciniki_artclub_memberAdd(&$ciniki) {
 		'last'=>array('required'=>'no', 'default'=>'', 'trimblanks'=>'yes', 'blank'=>'yes', 'name'=>'Last Name'),
 		'company'=>array('required'=>'no', 'default'=>'', 'trimblanks'=>'yes', 'blank'=>'yes', 'name'=>'Company'),
 		'permalink'=>array('required'=>'no', 'default'=>'', 'trimblanks'=>'yes', 'blank'=>'yes', 'name'=>'Permalink'),
+		'webflags'=>array('required'=>'no', 'default'=>'0', 'trimblanks'=>'yes', 'blank'=>'yes', 'name'=>'Webflags'),
 		'email'=>array('required'=>'no', 'default'=>'', 'trimblanks'=>'yes', 'blank'=>'yes', 'name'=>'Email'),
 		'phone_home'=>array('required'=>'no', 'default'=>'', 'trimblanks'=>'yes', 'blank'=>'yes', 'name'=>'Home Phone'),
 		'phone_work'=>array('required'=>'no', 'default'=>'', 'trimblanks'=>'yes', 'blank'=>'yes', 'name'=>'Work phone'),
@@ -112,7 +113,7 @@ function ciniki_artclub_memberAdd(&$ciniki) {
 	// Add the artclub to the database
 	//
 	$strsql = "INSERT INTO ciniki_artclub_members (uuid, business_id, "
-		. "first, last, company, permalink, email, "
+		. "first, last, company, permalink, webflags, email, "
 		. "phone_home, phone_work, phone_cell, phone_fax, url, "
 		. "primary_image_id, short_description, description, notes, "
 		. "date_added, last_updated) VALUES ("
@@ -122,6 +123,7 @@ function ciniki_artclub_memberAdd(&$ciniki) {
 		. "'" . ciniki_core_dbQuote($ciniki, $args['last']) . "', "
 		. "'" . ciniki_core_dbQuote($ciniki, $args['company']) . "', "
 		. "'" . ciniki_core_dbQuote($ciniki, $args['permalink']) . "', "
+		. "'" . ciniki_core_dbQuote($ciniki, $args['webflags']) . "', "
 		. "'" . ciniki_core_dbQuote($ciniki, $args['email']) . "', "
 		. "'" . ciniki_core_dbQuote($ciniki, $args['phone_home']) . "', "
 		. "'" . ciniki_core_dbQuote($ciniki, $args['phone_work']) . "', "
@@ -153,6 +155,7 @@ function ciniki_artclub_memberAdd(&$ciniki) {
 		'last',
 		'company',
 		'permalink',
+		'webflags',
 		'email',
 		'phome_home',
 		'phone_work',
