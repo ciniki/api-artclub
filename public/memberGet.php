@@ -121,8 +121,8 @@ function ciniki_artclub_memberGet($ciniki) {
 	} else {
 		$rc = ciniki_core_dbHashQueryTree($ciniki, $strsql, 'ciniki.artclub', array(
 			array('container'=>'members', 'fname'=>'member_id', 'name'=>'member',
-				'fields'=>array('id'=>'member_id', 'category', 'type', 'status',
-					'webflags', 'title', 'location', 
+				'fields'=>array('id'=>'member_id', 'category',
+					'webflags', 
 					'member_id', 'first', 'last', 'company', 'email', 'phone_home',
 					'phone_work', 'phone_cell', 'phone_fax', 'url', 'primary_image_id',
 					'short_description', 'description', 'notes')),
