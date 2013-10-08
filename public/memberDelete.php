@@ -106,7 +106,7 @@ function ciniki_artclub_memberDelete(&$ciniki) {
 	}
 	if( !isset($rc['member']) ) {
 		ciniki_core_dbTransactionRollback($ciniki, 'ciniki.artclub');
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'936', 'msg'=>'Member does not exist'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1350', 'msg'=>'Member does not exist'));
 	}
 	$member = $rc['member'];
 
