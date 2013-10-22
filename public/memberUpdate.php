@@ -61,7 +61,7 @@ function ciniki_artclub_memberUpdate(&$ciniki) {
 	// Check the permalink doesn't already exist
 	//
 	if( isset($args['permalink']) ) {
-		$strsql = "SELECT id, name, permalink FROM ciniki_artclub "
+		$strsql = "SELECT id, name, permalink FROM ciniki_artclub_members "
 			. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' "
 			. "AND permalink = '" . ciniki_core_dbQuote($ciniki, $args['permalink']) . "' "
 			. "";
@@ -75,128 +75,9 @@ function ciniki_artclub_memberUpdate(&$ciniki) {
 	}
 
 	//
-	// Get the existing image details
+	// Update the member
 	//
-	$strsql = "SELECT uuid, primary_image_id FROM ciniki_artclub_members "
-		. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' "
-		. "AND id = '" . ciniki_core_dbQuote($ciniki, $args['member_id']) . "' "
-		. "";
-	$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.artclub', 'item');
-	if( $rc['stat'] != 'ok' ) {
-		return $rc;
-	}
-	if( !isset($rc['item']) ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'943', 'msg'=>'Contact image not found'));
-	}
-	$item = $rc['item'];
-
-	//  
-	// Turn off autocommit
-	//  
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbTransactionStart');
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbTransactionRollback');
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbTransactionCommit');
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbInsert');
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUpdate');
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbAddModuleHistory');
-	$rc = ciniki_core_dbTransactionStart($ciniki, 'ciniki.artclub');
-	if( $rc['stat'] != 'ok' ) { 
-		return $rc;
-	}   
-
-	//
-	// Add all the fields to the change log
-	//
-	$strsql = "UPDATE ciniki_artclub_members SET last_updated = UTC_TIMESTAMP()";
-
-	$changelog_fields = array(
-		'first',
-		'last',
-		'company',
-		'permalink',
-		'webflags',
-		'email',
-		'phome_home',
-		'phone_work',
-		'phone_cell',
-		'phone_fax',
-		'url',
-		'primary_image_id',
-		'short_description',
-		'description',
-		'notes',
-		);
-	foreach($changelog_fields as $field) {
-		if( isset($args[$field]) ) {
-			$strsql .= ", $field = '" . ciniki_core_dbQuote($ciniki, $args[$field]) . "' ";
-			$rc = ciniki_core_dbAddModuleHistory($ciniki, 'ciniki.artclub', 
-				'ciniki_artclub_history', $args['business_id'], 
-				2, 'ciniki_artclub_members', $args['member_id'], $field, $args[$field]);
-		}
-	}
-	$strsql .= "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' "
-		. "AND id = '" . ciniki_core_dbQuote($ciniki, $args['member_id']) . "' "
-		. "";
-	$rc = ciniki_core_dbUpdate($ciniki, $strsql, 'ciniki.artclub');
-	if( $rc['stat'] != 'ok' ) {
-		ciniki_core_dbTransactionRollback($ciniki, 'ciniki.artclub');
-		return $rc;
-	}
-	if( !isset($rc['num_affected_rows']) || $rc['num_affected_rows'] != 1 ) {
-		ciniki_core_dbTransactionRollback($ciniki, 'ciniki.artclub');
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'945', 'msg'=>'Unable to update artclub'));	
-	}
-
-	//
-	// Update image reference
-	//
-	if( isset($args['primary_image_id']) && $item['primary_image_id'] != $args['primary_image_id']) {
-		//
-		// Remove the old reference
-		//
-		ciniki_core_loadMethod($ciniki, 'ciniki', 'images', 'private', 'refClear');
-		$rc = ciniki_images_refClear($ciniki, $args['business_id'], array(
-			'object'=>'ciniki.artclub.member', 
-			'object_id'=>$args['member_id']));
-		if( $rc['stat'] == 'fail' ) {
-			ciniki_core_dbTransactionRollback($ciniki, 'ciniki.artclub');
-			return $rc;
-		}
-
-		//
-		// Add the new reference
-		//
-		ciniki_core_loadMethod($ciniki, 'ciniki', 'images', 'private', 'refAdd');
-		$rc = ciniki_images_refAdd($ciniki, $args['business_id'], array(
-			'image_id'=>$args['primary_image_id'], 
-			'object'=>'ciniki.artclub.member', 
-			'object_id'=>$args['member_id'],
-			'object_field'=>'primary_image_id'));
-		if( $rc['stat'] != 'ok' ) {
-			ciniki_core_dbTransactionRollback($ciniki, 'ciniki.artclub');
-			return $rc;
-		}
-	}
-
-	//
-	// Commit the database changes
-	//
-    $rc = ciniki_core_dbTransactionCommit($ciniki, 'ciniki.artclub');
-	if( $rc['stat'] != 'ok' ) {
-		return $rc;
-	}
-
-	//
-	// Update the last_change date in the business modules
-	// Ignore the result, as we don't want to stop user updates if this fails.
-	//
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'private', 'updateModuleChangeDate');
-	ciniki_businesses_updateModuleChangeDate($ciniki, $args['business_id'], 'ciniki', 'artclub');
-
-	$ciniki['syncqueue'][] = array('push'=>'ciniki.artclub.member', 
-		'args'=>array('id'=>$args['member_id']));
-
-	return array('stat'=>'ok');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectUpdate');
+	return ciniki_core_objectUpdate($ciniki, $args['business_id'], 'ciniki.artclub.member', $args['member_id'], $args, 0x07);
 }
 ?>

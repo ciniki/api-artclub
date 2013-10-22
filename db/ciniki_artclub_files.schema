@@ -13,7 +13,6 @@
 #
 #					0 - unknown
 #					1 - Membership Application Form
-#					2 - Newsletter
 #
 # extension:		The extension from the uploaded file. (.doc, .xls, .pdf, etc)
 #
