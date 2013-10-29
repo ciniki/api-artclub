@@ -47,7 +47,25 @@ function ciniki_artclub_memberImageUpdate(&$ciniki) {
 	// Check the permalink
 	//
 	if( isset($args['name']) ) {
-		$args['permalink'] = preg_replace('/ /', '-', preg_replace('/[^a-z0-9 ]/', '', strtolower($args['name'])));
+		if( $args['name'] == '' ) {
+			//
+			// Get the existing image details
+			//
+			$strsql = "SELECT uuid FROM ciniki_artclub_member_images "
+				. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' "
+				. "AND id = '" . ciniki_core_dbQuote($ciniki, $args['member_image_id']) . "' "
+				. "";
+			$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.artclub', 'item');
+			if( $rc['stat'] != 'ok' ) {
+				return $rc;
+			}
+			if( !isset($rc['item']) ) {
+				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'485', 'msg'=>'Member image not found'));
+			}
+			$args['permalink'] = preg_replace('/ /', '-', preg_replace('/[^a-z0-9 ]/', '', strtolower($rc['item']['uuid'])));
+		} else {
+			$args['permalink'] = preg_replace('/ /', '-', preg_replace('/[^a-z0-9 ]/', '', strtolower($args['name'])));
+		}
 		//
 		// Make sure the permalink is unique
 		//

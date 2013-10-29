@@ -21,6 +21,7 @@ function ciniki_artclub_memberImageAdd(&$ciniki) {
 		'image_id'=>array('required'=>'yes', 'blank'=>'yes', 'name'=>'Image'),
         'name'=>array('required'=>'no', 'blank'=>'yes', 'default'=>'', 'name'=>'Title'), 
         'permalink'=>array('required'=>'no', 'default'=>'', 'blank'=>'yes', 'name'=>'Permalink'), 
+        'sequence'=>array('required'=>'no', 'default'=>'0', 'blank'=>'yes', 'name'=>'Sequence'), 
         'webflags'=>array('required'=>'no', 'default'=>'0', 'blank'=>'yes', 'name'=>'Website Flags'), 
         'url'=>array('required'=>'no', 'default'=>'', 'blank'=>'yes', 'name'=>'URL'), 
         'description'=>array('required'=>'no', 'default'=>'', 'blank'=>'yes', 'name'=>'Description'), 
@@ -44,7 +45,7 @@ function ciniki_artclub_memberImageAdd(&$ciniki) {
 	// Get a new UUID, do this first so it can be used as permalink if necessary
 	//
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUUID');
-	$rc = ciniki_core_dbUUID($ciniki, 'ciniki.artcatalog');
+	$rc = ciniki_core_dbUUID($ciniki, 'ciniki.artclub');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
