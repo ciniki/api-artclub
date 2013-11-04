@@ -46,7 +46,7 @@ function ciniki_artclub_memberDelete(&$ciniki) {
 		return $rc;
 	}
 	if( !isset($rc['member']) ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1350', 'msg'=>'Member does not exist'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1272', 'msg'=>'Member does not exist'));
 	}
 	$uuid = $rc['member']['uuid'];
 
