@@ -26,7 +26,7 @@ function ciniki_artclub_web_fileDownload($ciniki, $business_id, $permalink) {
 		return $rc;
 	}
 	if( !isset($rc['file']) ) {
-		return array('stat'=>'noexist', 'err'=>array('pkg'=>'ciniki', 'code'=>'1008', 'msg'=>'Unable to find requested file'));
+		return array('stat'=>'404', 'err'=>array('pkg'=>'ciniki', 'code'=>'1008', 'msg'=>'We are sorry, but the file you requested does not exist.'));
 	}
 	$rc['file']['filename'] = $rc['file']['name'] . '.' . $rc['file']['extension'];
 
